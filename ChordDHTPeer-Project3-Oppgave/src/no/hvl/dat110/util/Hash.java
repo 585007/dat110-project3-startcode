@@ -32,7 +32,7 @@ public class Hash {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			
 			byte[] entityMD5 = md.digest(entityBytes);
-			hashint = new BigInteger(toHex(entityMD5));
+			hashint = new BigInteger(1, entityMD5);
 			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
