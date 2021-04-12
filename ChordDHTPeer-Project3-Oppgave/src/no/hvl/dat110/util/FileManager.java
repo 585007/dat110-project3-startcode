@@ -20,7 +20,6 @@ import java.util.Set;
 
 import no.hvl.dat110.middleware.Message;
 import no.hvl.dat110.rpc.interfaces.NodeInterface;
-import no.hvl.dat110.util.Hash;
 
 public class FileManager {
 	
@@ -98,6 +97,13 @@ public class FileManager {
     	
     	// increment counter
     	
+    	createReplicaFiles();
+    	
+    	for(int i = 0; i < numReplicas; i++) {
+    		chordnode.findSuccessor(replicafiles[i]);
+    		
+    		
+    	}
     		
 		return counter;
     }
