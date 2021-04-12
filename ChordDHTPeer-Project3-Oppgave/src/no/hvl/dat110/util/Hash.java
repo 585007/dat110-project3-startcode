@@ -1,22 +1,19 @@
 package no.hvl.dat110.util;
 
-/**
- * project 3
- * @author tdoy
- *
- */
-
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
-import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * project 3
+ * @author Ruben
+ */
 public class Hash { 
+	private static BigInteger hashint;
 	
-	private static BigInteger hashint; 
-	
-	public static BigInteger hashOf(String entity) {		
+	public static BigInteger hashOf(String entity) {
+		
 		
 		// Task: Hash a given string using MD5 and return the result as a BigInteger.
 		
@@ -29,6 +26,19 @@ public class Hash {
 		// convert the hex into BigInteger
 		
 		// return the BigInteger
+		
+		try {
+			byte[] entityBytes = entity.getBytes("UTF-8");
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			
+			byte[] entityMD5 = md.digest(entityBytes);
+			hashint = new BigInteger(1, entityMD5);
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}catch(NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
 		
 		return hashint;
 	}
