@@ -62,9 +62,24 @@ public class Util {
 			slutt = upper;
 			key = id;
 		}
+		return (key.compareTo(lower)>=0 && key.compareTo(slutt)<=0);
 		
-		upper = slutt;
-		return (key.compareTo(lower)>=0 && key.compareTo(upper)<=0);
+//		boolean cond = false;
+//		BigInteger nupper = upper;
+//		BigInteger addresssize = Hash.addressSize();
+//		if (lower.compareTo(upper)==1) {
+//			nupper = upper.add(addresssize);
+//			
+//			if((id.compareTo(new BigInteger("0"))==1 || id.compareTo(new BigInteger("0"))==0) && 
+//					((id.compareTo(upper)==-1 || id.compareTo(upper)==0))) {
+//				id = id.add(addresssize);
+//			}
+//		}
+//		
+//		upper = nupper;
+//		cond = (id.compareTo(lower)==1 || id.compareTo(lower)==0) && (id.compareTo(upper)==-1 || id.compareTo(upper)==0);
+//		
+//		return cond;
 	}
 
 	public static NodeInterface getProcessStub(String name, int port) {
