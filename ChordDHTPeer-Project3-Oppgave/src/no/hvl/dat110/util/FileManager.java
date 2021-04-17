@@ -15,7 +15,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.HashSet;
-import java.util.Random;
+import java.util.Iterator;
 import java.util.Set;
 
 import no.hvl.dat110.middleware.Message;
@@ -100,7 +100,7 @@ public class FileManager {
     	createReplicaFiles();
     	
     	for(int i = 0; i < numReplicas; i++) {
-    		NodeInterface successor = chordnode.findSuccessor(replicafiles[i]);
+    		NodeInterface successor = chordnode.findSuccessor(replicafiles[i]); 
     		successor.addKey(replicafiles[i]);
     		successor.saveFileContent(filename, successor.getNodeID(), bytesOfFile, i < numReplicas);
     		counter++;
@@ -120,6 +120,7 @@ public class FileManager {
 		
 		this.filename = filename;
 		Set<Message> succinfo = new HashSet<Message>();
+		//TODO - muligens ferdig. Trenger testing
 		// Task: Given a filename, find all the peers that hold a copy of this file
 		
 		// generate the N replicas from the filename by calling createReplicaFiles()
@@ -131,6 +132,16 @@ public class FileManager {
 		// get the metadata (Message) of the replica from the successor, s (i.e. active peer) of the file
 		
 		// save the metadata in the set succinfo.
+		
+		
+		createReplicaFiles();
+    	
+    	for(int i = 0; i < numReplicas; i++) {
+    		NodeInterface successor = chordnode.findSuccessor(replicafiles[i]);
+    		Message msg = successor.getFilesMetadata(replicafiles[i]);
+    		
+    		succinfo.add(msg);
+    	}
 		
 		this.activeNodesforFile = succinfo;
 		
@@ -153,7 +164,28 @@ public class FileManager {
 		
 		// return the primary
 		
-		return null; 
+		NodeInterface primary = null;
+		
+		try {
+			Message primaryMsg = null;
+			requestActiveNodesForFile(filename);
+			primaryMsg = activeNodesforFile.stream()
+							.filter((m)->m.isPrimaryServer() == true)
+							.findFirst().orElse(null);
+			
+			if(primaryMsg != null) {
+				primary = chordnode.findSuccessor(primaryMsg.getNodeID());
+			}
+			
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+		return primary; 
 	}
 	
     /**
