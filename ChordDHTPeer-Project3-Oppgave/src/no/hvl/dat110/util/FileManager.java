@@ -98,7 +98,7 @@ public class FileManager {
     	// increment counter
     	
     	createReplicaFiles();
-//    	
+    	
     	for(int i = 0; i < numReplicas; i++) {
     		NodeInterface successor = chordnode.findSuccessor(replicafiles[i]);
     		successor.addKey(replicafiles[i]);
@@ -108,18 +108,6 @@ public class FileManager {
     	}
     		
 		return counter;
-		
-//		for(int i=0; i<replicafiles.length; i++) {
-//			BigInteger fileID = (BigInteger) replicafiles[i];
-//			NodeInterface succOfFileID = chordnode.findSuccessor(fileID);
-//			
-//			// if we find the successor node of fileID, we can assign the file to the successor. This should always work even with one node
-//			if(succOfFileID != null) {
-//				succOfFileID.addKey(fileID);
-//				String initialcontent = chordnode.getNodeID()+"\n"+chordnode.getNodeID();
-//				succOfFileID.saveFileContent(initialcontent, fileID);			// copy the file to the successor local dir
-//			}			saveFileContent(String filename, fileID, byte[] bytesOfFile, boolean primary)
-//		}
     }
 	
 	/**
