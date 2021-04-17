@@ -135,13 +135,12 @@ public class FileManager {
 		
 		createReplicaFiles();
 		
-		this.activeNodesforFile = succinfo;
-		
 		for(int i = 0; i < numReplicas; i++) {
 			NodeInterface successor = chordnode.findSuccessor(replicafiles[i]);
 				succinfo.add(successor.getFilesMetadata(getHash()));	
     	}
 		
+		this.activeNodesforFile = succinfo;
 		
 		return succinfo;
 	}
