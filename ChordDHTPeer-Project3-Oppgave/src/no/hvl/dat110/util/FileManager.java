@@ -15,7 +15,6 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import no.hvl.dat110.middleware.Message;
@@ -120,7 +119,7 @@ public class FileManager {
 		
 		this.filename = filename;
 		Set<Message> succinfo = new HashSet<Message>();
-		//TODO - muligens ferdig. Trenger testing
+		
 		// Task: Given a filename, find all the peers that hold a copy of this file
 		
 		// generate the N replicas from the filename by calling createReplicaFiles()
@@ -153,7 +152,7 @@ public class FileManager {
 	 * @return 
 	 */
 	public NodeInterface findPrimaryOfItem() {
-		//TODO - muligens ferdig, men ikke testet
+
 		// Task: Given all the active peers of a file (activeNodesforFile()), find which is holding the primary copy
 		
 		// iterate over the activeNodesforFile
