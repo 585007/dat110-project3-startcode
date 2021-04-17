@@ -1,7 +1,10 @@
 package no.hvl.dat110.util;
 
 
-
+/**
+ * @author tdoy
+ * dat110 - project 3
+ */
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,10 +21,6 @@ import java.util.Set;
 import no.hvl.dat110.middleware.Message;
 import no.hvl.dat110.rpc.interfaces.NodeInterface;
 
-/**
- * 
- * @author Ruben
- */
 public class FileManager {
 	
 	private BigInteger[] replicafiles;							// array stores replicated files for distribution to matching nodes
@@ -81,7 +80,7 @@ public class FileManager {
      */
     public int distributeReplicastoPeers() throws RemoteException {
     	int counter = 0;
-    	//TODO
+    	
     	// Task1: Given a filename, make replicas and distribute them to all active peers such that: pred < replica <= peer
     	
     	// Task2: assign a replica as the primary for this file. Hint, see the slide (project 3) on Canvas
@@ -100,7 +99,6 @@ public class FileManager {
     	
     	createReplicaFiles();
     	
-    	
     	for(int i = 0; i < numReplicas; i++) {
     		NodeInterface successor = chordnode.findSuccessor(replicafiles[i]);
     		successor.addKey(replicafiles[i]);
@@ -110,18 +108,6 @@ public class FileManager {
     	}
     		
 		return counter;
-		
-//		for(int i=0; i<replicafiles.length; i++) {
-//			BigInteger fileID = (BigInteger) replicafiles[i];
-//			NodeInterface succOfFileID = chordnode.findSuccessor(fileID);
-//			
-//			// if we find the successor node of fileID, we can assign the file to the successor. This should always work even with one node
-//			if(succOfFileID != null) {
-//				succOfFileID.addKey(fileID);
-//				String initialcontent = chordnode.getNodeID()+"\n"+chordnode.getNodeID();
-//				succOfFileID.saveFileContent(initialcontent, fileID);			// copy the file to the successor local dir
-//			}			saveFileContent(String filename, fileID, byte[] bytesOfFile, boolean primary)
-//		}
     }
 	
 	/**
@@ -131,7 +117,7 @@ public class FileManager {
 	 * @throws RemoteException 
 	 */
 	public Set<Message> requestActiveNodesForFile(String filename) throws RemoteException {
-		//TODO
+		
 		this.filename = filename;
 		Set<Message> succinfo = new HashSet<Message>();
 		// Task: Given a filename, find all the peers that hold a copy of this file
@@ -165,7 +151,7 @@ public class FileManager {
 	 * @return 
 	 */
 	public NodeInterface findPrimaryOfItem() {
-
+		//TODO
 		// Task: Given all the active peers of a file (activeNodesforFile()), find which is holding the primary copy
 		
 		// iterate over the activeNodesforFile
