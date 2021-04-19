@@ -90,9 +90,7 @@ public class MutualExclusion {
 		mutexqueue.clear();
 
 		// return permission
-		releaseLocks();
-
-		return false;
+		return alRet;
 	}
 
 	// multicast message to other processes including self
@@ -176,7 +174,7 @@ public class MutualExclusion {
 			Util.getProcessStub(message.getNameOfFile(), message.getPort());
 			message.isAcknowledged();
 			onMutexAcknowledgementReceived(message);
-			
+
 			break;
 		}
 
@@ -187,7 +185,7 @@ public class MutualExclusion {
 		case 1: {
 
 			// queue this message
-			mutexqueue.add(message);
+			queue.add(message);
 			break;
 		}
 
@@ -202,25 +200,25 @@ public class MutualExclusion {
 			// compare clocks, the lowest wins
 			// if clocks are the same, compare nodeIDs, the lowest wins
 			// if sender wins, acknowledge the message, obtain a stub and call
-			// onMutexAcknowledgementReceived()
+			// onMutexAcknowledgementReceived()|
 			// if sender looses, queue it
 
 			if (message.getClock() < clock.getClock()) {
 				message.isAcknowledged();
-				Util.getProcessStub(message.getNameOfFile(), message.getPort());
+				Util.getProcessStub(procName, port);
 				onMutexAcknowledgementReceived(message);
 
 			} else if (message.getClock() == clock.getClock()) {
 
 				if (message.getNodeID().compareTo(node.getNodeID()) < 0) {
 					message.isAcknowledged();
-					Util.getProcessStub(message.getNameOfFile(), message.getPort());
+					Util.getProcessStub(procName, port);
 					onMutexAcknowledgementReceived(message);
-				} else 
-					mutexqueue.add(message);
-				
+				} else
+					queue.add(message);
+
 			} else {
-				mutexqueue.add(message);
+				queue.add(message);
 			}
 
 			break;
@@ -247,7 +245,7 @@ public class MutualExclusion {
 		// obtain a stub for each node from the registry
 
 		// call releaseLocks()
-		
+
 		activenodes.stream().forEach(m -> Util.getProcessStub(m.getNameOfFile(), m.getPort()));
 		releaseLocks();
 
@@ -267,7 +265,7 @@ public class MutualExclusion {
 			queueack.clear();
 			return false;
 		}
-		
+
 	}
 
 	private List<Message> removeDuplicatePeersBeforeVoting() {
