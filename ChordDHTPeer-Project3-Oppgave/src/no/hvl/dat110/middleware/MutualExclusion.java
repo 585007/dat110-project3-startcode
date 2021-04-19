@@ -104,10 +104,6 @@ public class MutualExclusion {
 
 		List<Message> stubs = activenodes.stream()
 				.collect(Collectors.toList());
-		System.out.println("test");
-		System.out.println(stubs);
-		stubs.forEach(m -> System.out.println(m.getNameOfFile() + " | " + m.getHashOfFile()));
-		//forEach(m -> Util.getProcessStub(m.getNameOfFile(), m.getPort()));
 		
 		for(Message m : stubs) {
 			NodeInterface stub = Util.getProcessStub(m.getNodeIP(), m.getPort());
