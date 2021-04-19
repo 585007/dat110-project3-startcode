@@ -160,7 +160,7 @@ public class MutualExclusion {
 			// acknowledge message
 			// send acknowledgement back by calling onMutexAcknowledgementReceived()
 
-			Util.getProcessStub(message.getNameOfFile(), message.getPort());
+			Util.getProcessStub(procName, message.getPort());
 			message.isAcknowledged();
 			onMutexAcknowledgementReceived(message);
 
