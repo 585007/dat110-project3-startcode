@@ -3,11 +3,11 @@
  */
 package no.hvl.dat110.middleware;
 
-import java.math.BigInteger;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import no.hvl.dat110.rpc.interfaces.NodeInterface;
 import no.hvl.dat110.util.LamportClock;
@@ -47,8 +47,9 @@ public class MutualExclusion {
 	}
 
 	public boolean doMutexRequest(Message message, byte[] updates) throws RemoteException {
-
-		System.out.println(node.nodename + " wants to access CS");
+		
+		System.out.println(node.nodename + " wants to access CS \n");
+		System.out.println("==================================");
 
 		// clear the queueack before requesting for votes
 		queueack.clear();
@@ -103,7 +104,17 @@ public class MutualExclusion {
 
 		// call onMutexRequestReceived()
 
-		activenodes.stream().forEach(m -> Util.getProcessStub(m.getNameOfFile(), m.getPort()));
+		List<Message> stubs = activenodes.stream()
+				.collect(Collectors.toList());
+		System.out.println("test");
+		System.out.println(stubs);
+		stubs.forEach(m -> System.out.println(m.getNameOfFile() + " | " + m.getHashOfFile()));
+		//forEach(m -> Util.getProcessStub(m.getNameOfFile(), m.getPort()));
+		
+		for(Message m : stubs) {
+			NodeInterface stub = Util.getProcessStub(m.getNameOfFile(), m.getPort());
+			stub.onMutexRequestReceived(message);
+		}
 		onMutexRequestReceived(message);
 
 	}
