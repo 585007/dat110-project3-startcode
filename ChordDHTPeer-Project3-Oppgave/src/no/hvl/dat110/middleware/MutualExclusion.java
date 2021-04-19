@@ -101,7 +101,7 @@ public class MutualExclusion {
 
 		// call onMutexRequestReceived()
 
-		activenodes.stream().forEach(m -> Util.getProcessStub(m.getNameOfFile(), m.getPort()));
+		activenodes.stream().forEach(m -> Util.getProcessStub(m.getNodeIP(), m.getPort()));
 		onMutexRequestReceived(message);
 
 	}
@@ -235,7 +235,7 @@ public class MutualExclusion {
 
 		// call releaseLocks()
 
-		activenodes.stream().forEach(m -> Util.getProcessStub(m.getNameOfFile(), m.getPort()));
+		activenodes.stream().forEach(m -> Util.getProcessStub(m.getNodeIP(), m.getPort()));
 		releaseLocks();
 
 	}
