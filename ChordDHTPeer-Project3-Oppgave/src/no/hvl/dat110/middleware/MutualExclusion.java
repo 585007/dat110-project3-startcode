@@ -110,7 +110,7 @@ public class MutualExclusion {
 		//forEach(m -> Util.getProcessStub(m.getNameOfFile(), m.getPort()));
 		
 		for(Message m : stubs) {
-			NodeInterface stub = Util.getProcessStub(m.getNameOfFile(), m.getPort());
+			NodeInterface stub = Util.getProcessStub(m.getNodeIP(), m.getPort());
 			stub.onMutexRequestReceived(message);
 		}
 		onMutexRequestReceived(message);
