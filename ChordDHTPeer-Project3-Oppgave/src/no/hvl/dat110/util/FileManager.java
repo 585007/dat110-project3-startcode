@@ -141,12 +141,10 @@ public class FileManager {
     		NodeInterface successor = chordnode.findSuccessor(replicafiles[i]);
     		if(successor != null) {
     		Message msg = successor.getFilesMetadata(replicafiles[i]);
-    		if (msg == null) {
-    			System.out.println("msg = null");
-    		}
+
     		succinfo.add(msg);
     		}
-    		}
+		}
 		
 		this.activeNodesforFile = succinfo;
 		
