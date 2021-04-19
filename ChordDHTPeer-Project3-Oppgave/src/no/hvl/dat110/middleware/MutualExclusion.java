@@ -199,7 +199,7 @@ public class MutualExclusion {
 
 			} else if (message.getClock() == clock.getClock()) {
 
-				if (procName.compareTo(node.getNodeName()) < 0) {
+				if (message.getNodeID().compareTo(node.getNodeID()) < 0) {
 					message.isAcknowledged();
 					Util.getProcessStub(procName, port);
 					onMutexAcknowledgementReceived(message);
