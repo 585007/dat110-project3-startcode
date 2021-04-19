@@ -111,9 +111,11 @@ public class MutualExclusion {
 				.collect(Collectors.toList());
 		//TODO - fjern
 		System.out.println(activenodes.size() +" activenodes size");
+		
 		for(Message m : stubs) {
-			NodeInterface stub = Util.getProcessStub(m.getNodeIP(), m.getPort());
-			stub.onMutexRequestReceived(message);
+			Util.getProcessStub(m.getNodeIP(), m.getPort())
+				.onMutexRequestReceived(message);
+			
 		}
 
 	}
@@ -210,17 +212,16 @@ public class MutualExclusion {
 			
 			if (message.getClock() < clock.getClock()) {
 				//TODO - fjern
-				message.setNodeIP(message.getNodeIP()+" - "+node.getNodeName());
+				message.setNodeIP(message.getNodeIP() + " - " + node.getNodeName());
 				message.setAcknowledged(true);
 				Util.getProcessStub(procName, port)
 					.onMutexAcknowledgementReceived(message);
 				
 
 			} else if (message.getClock() == clock.getClock()) {
-
 				if (message.getNodeID().compareTo(node.getNodeID()) < 0) {
 					//TODO - fjern
-					message.setNodeIP(message.getNodeIP()+" - "+node.getNodeName());
+					message.setNodeIP(message.getNodeIP() + " - " + node.getNodeName());
 					message.setAcknowledged(true);
 					Util.getProcessStub(procName, port)
 						.onMutexAcknowledgementReceived(message);
