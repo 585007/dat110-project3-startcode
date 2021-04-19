@@ -28,7 +28,7 @@ public class ChordLookup {
 	public NodeInterface findSuccessor(BigInteger key) throws RemoteException {
 		
 		NodeInterface nodestub = Util.getProcessStub(node.getSuccessor().getNodeName(), node.getSuccessor().getPort()); 
-		if(Util.computeLogic(key, node.getNodeID().add(BigInteger.ONE), node.getSuccessor().getNodeID())) {
+		if(nodestub != null && Util.computeLogic(key, node.getNodeID().add(BigInteger.ONE), node.getSuccessor().getNodeID())) {
 			return nodestub;
 		}else {
 			return findHighestPredecessor(key).findSuccessor(key);
