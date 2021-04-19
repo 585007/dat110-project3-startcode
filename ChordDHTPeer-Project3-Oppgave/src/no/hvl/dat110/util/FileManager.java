@@ -103,7 +103,7 @@ public class FileManager {
 		for (int i = 0; i < numReplicas; i++) {
 			NodeInterface successor = chordnode.findSuccessor(replicafiles[i]);
 			successor.addKey(replicafiles[i]);
-			successor.saveFileContent(filename, successor.getNodeID(), bytesOfFile, i < numReplicas);
+			successor.saveFileContent(filename, replicafiles[i], bytesOfFile, i < numReplicas);
 			counter++;
 
 		}
@@ -141,7 +141,9 @@ public class FileManager {
     		NodeInterface successor = chordnode.findSuccessor(replicafiles[i]);
     		if(successor != null) {
     		Message msg = successor.getFilesMetadata(replicafiles[i]);
-    		
+    		if (msg == null) {
+    			System.out.println("msg = null");
+    		}
     		succinfo.add(msg);
     		}
     		}
@@ -152,20 +154,7 @@ public class FileManager {
     	}
     	return succinfo; 
 	}
-//		Set<Message> messages = new HashSet<>();
-//
-//		for (BigInteger i : replicafiles) {
-//			
-//			NodeInterface successor = chordnode.findSuccessor(i);
-//			if (successor != null) {
-//				Message msg = successor.getFilesMetadata().get(i);
-//
-//				if (msg != null)
-//					messages.add(msg);
-//			}
-//		}
-//		return messages;
-//	}  
+
 
 	/**
 	 * Find the primary server - Remote-Write Protocol
