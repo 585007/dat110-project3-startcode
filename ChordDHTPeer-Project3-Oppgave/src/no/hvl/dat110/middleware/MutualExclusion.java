@@ -76,8 +76,6 @@ public class MutualExclusion {
 		multicastMessage(message, noDupes);
 		// check that all replicas have replied (permission)
 		boolean alRet = areAllMessagesReturned(noDupes.size());
-		//TODO - fjern
-		System.out.println("---------"+message.getNodeIP() + " votes " + noDupes.size());
 
 		
 		// if yes, acquireLock
@@ -109,8 +107,6 @@ public class MutualExclusion {
 
 		List<Message> stubs = activenodes.stream()
 				.collect(Collectors.toList());
-		//TODO - fjern
-		System.out.println(activenodes.size() +" activenodes size");
 		
 		for(Message m : stubs) {
 			Util.getProcessStub(m.getNodeIP(), m.getPort())
@@ -153,8 +149,7 @@ public class MutualExclusion {
 				caseid = 2;
 	
 			}
-			//TODO - fjern
-			System.out.println(node.getNodeID() +" case " +caseid );
+
 			// check for decision
 			doDecisionAlgorithm(message, mutexqueue, caseid);
 		}
@@ -180,7 +175,7 @@ public class MutualExclusion {
 			
 			message.setAcknowledged(true);
 			Util.getProcessStub(procName, message.getPort())
-				.onMutexAcknowledgementReceived(message);
+					.onMutexAcknowledgementReceived(message);
 
 			break;
 		}
@@ -211,20 +206,16 @@ public class MutualExclusion {
 			// if sender looses, queue it
 			
 			if (message.getClock() < clock.getClock()) {
-				//TODO - fjern
-				message.setNodeIP(message.getNodeIP() + " - " + node.getNodeName());
 				message.setAcknowledged(true);
 				Util.getProcessStub(procName, port)
-					.onMutexAcknowledgementReceived(message);
+						.onMutexAcknowledgementReceived(message);
 				
 
 			} else if (message.getClock() == clock.getClock()) {
 				if (message.getNodeID().compareTo(node.getNodeID()) < 0) {
-					//TODO - fjern
-					message.setNodeIP(message.getNodeIP() + " - " + node.getNodeName());
 					message.setAcknowledged(true);
 					Util.getProcessStub(procName, port)
-						.onMutexAcknowledgementReceived(message);
+							.onMutexAcknowledgementReceived(message);
 					
 				} else
 					queue.add(message);
@@ -246,8 +237,6 @@ public class MutualExclusion {
 
 		// add message to queueack
 		queueack.add(message);
-		//TODO - fjern
-		System.out.println(message.getNodeIP());
 	}
 
 	// multicast release locks message to other processes including self
@@ -270,7 +259,6 @@ public class MutualExclusion {
 		// clear the queueack
 
 		// return true if yes and false if no
-		System.out.println("---------"+node.getNodeID() + " queue size " + queueack.size());
 		if (queueack.size() == numvoters) {
 			queueack.clear();
 			return true;
